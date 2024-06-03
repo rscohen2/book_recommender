@@ -1,0 +1,33 @@
+name: Generate Widget
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+      
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      
+    - name: Run Python script
+      run: make_llm_2_nvidia (1).ipynb
+      
+    - name: Commit widget changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Generate widget"
+        git push
